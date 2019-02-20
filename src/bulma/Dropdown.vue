@@ -29,8 +29,6 @@ import DropdownIndicator from '@enso-ui/dropdown-indicator';
 import { Fade } from '@enso-ui/transitions';
 
 export default {
-    name: 'Dropdown',
-
     directives: {
         clickOutside: vClickOutside.directive,
     },
