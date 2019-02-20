@@ -1,3 +1,3 @@
-import DropdownIndicator from './src/DropdownIndicator.vue';
+import Dropdown from './src/bulma/Dropdown.vue';
 
-export default DropdownIndicator;
+export default Dropdown;
