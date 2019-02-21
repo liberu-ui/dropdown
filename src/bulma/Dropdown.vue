@@ -10,7 +10,7 @@
             </button>
         </div>
         <fade>
-            <div class="animated dropdown-menu menu-list"
+            <div class="dropdown-menu menu-list"
                 v-if="!hidden"
                 :style="widthStyle">
                 <div class="dropdown-content has-text-centered"
