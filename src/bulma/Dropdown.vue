@@ -10,11 +10,11 @@
             </button>
         </div>
         <fade>
-            <div class="dropdown-menu menu-list"
+            <div class="dropdown-menu"
                 v-if="!hidden"
                 :style="widthStyle">
                 <div class="dropdown-content has-text-centered"
-                    :style="[widthStyle, heightStyle]">
+                    :style="[widthStyle, heightStyle, overflow]">
                     <slot/>
                 </div>
             </div>
@@ -63,6 +63,11 @@ export default {
         widthStyle() {
             return {
                 'min-width': `${this.width}em`,
+            };
+        },
+        overflow() {
+            return {
+                overflow: 'auto',
             };
         },
     },
