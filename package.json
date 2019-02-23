@@ -17,9 +17,9 @@
     "author": "Adrian Ocneanu <aocneanu@gmail.com>",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/laravel-enso/dropdown/issues"
+        "url": "https://github.com/enso-ui/dropdown/issues"
     },
-    "homepage": "https://github.com/laravel-enso/dropdown#readme",
+    "homepage": "https://github.com/enso-ui/dropdown#readme",
     "devDependencies": {
         "@vue/eslint-config-airbnb": "^4.0.0",
         "babel-eslint": "^10.0.1",
