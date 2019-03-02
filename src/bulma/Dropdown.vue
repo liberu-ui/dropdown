@@ -3,7 +3,8 @@
         v-click-outside="close"
         @keydown.escape="close"
         @keydown.tab="close"
-        @keydown.enter="attemptClose">
+        @keydown.enter="attemptClose"
+        @keyup="open">
         <div class="dropdown-trigger"
             @focus="open"
             tabindex="0"
@@ -79,6 +80,14 @@ export default {
             return {
                 overflow: 'auto',
             };
+        },
+    },
+
+    watch: {
+        disabled(disabled) {
+            if (disabled) {
+                this.close();
+            }
         },
     },
 
