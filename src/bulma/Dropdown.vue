@@ -1,5 +1,5 @@
 <template>
-    <div :class="['dropdown', { 'is-active': !closed }]"
+    <div class="dropdown is-active"
         v-click-outside="close"
         @keydown.escape="close"
         @keydown.tab="close"
@@ -15,19 +15,23 @@
                 </button>
             </slot>
         </div>
-        <div class="dropdown-menu"
-            :style="widthStyle">
-            <div class="dropdown-content no-scrollbars"
-                :style="[widthStyle, heightStyle, overflow]"
-                @click="attemptClose">
-                <slot name="dropdown-content"/>
+        <fade>
+            <div class="dropdown-menu"
+                :style="widthStyle"
+                v-if="!closed">
+                <div class="dropdown-content no-scrollbars"
+                    :style="[widthStyle, heightStyle, overflow]"
+                    @click="attemptClose">
+                    <slot name="dropdown-content"/>
+                </div>
             </div>
-        </div>
+        </fade>
     </div>
 </template>
 
 <script>
 import { clickOutside } from '@enso-ui/directives';
+import { Fade } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
 
 export default {
@@ -35,7 +39,7 @@ export default {
 
     directives: { clickOutside },
 
-    components: { DropdownIndicator },
+    components: { Fade, DropdownIndicator },
 
     props: {
         disabled: {
