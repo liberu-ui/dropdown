@@ -31,9 +31,9 @@
         "webpack-cli": "^3.2.1"
     },
     "dependencies": {
+        "@enso-ui/directives": "^1.0.0",
         "@enso-ui/dropdown-indicator": "^1.0.0",
         "@enso-ui/transitions": "^1.0.0",
-        "v-click-outside": "^1.0.5",
         "vue": "^2.5.16"
     }
 }

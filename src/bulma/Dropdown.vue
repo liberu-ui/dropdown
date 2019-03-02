@@ -1,68 +1,73 @@
 <template>
-    <div class="dropdown is-active"
-        v-click-outside="hide">
+    <div :class="['dropdown', { 'is-active': !closed }]"
+        v-click-outside="close"
+        @keydown.escape="close"
+        @keydown.tab="close">
         <div class="dropdown-trigger"
-            @click="hidden = !hidden"
-            v-click-outside="attemptHide">
-            <button class="button">
-                <slot name="label"/>
-                <dropdown-indicator v-model="hidden"/>
-            </button>
+            @focus="open"
+            tabindex="0"
+            @click="open">
+            <slot name="dropdown-trigger">
+                <button class="button">
+                    <slot name="label"/>
+                    <dropdown-indicator :open="!closed"/>
+                </button>
+            </slot>
         </div>
-        <fade>
-            <div class="dropdown-menu"
-                v-if="!hidden"
-                :style="widthStyle">
-                <div class="dropdown-content has-text-centered"
-                    :style="[widthStyle, heightStyle, overflow]">
-                    <slot/>
-                </div>
+        <div class="dropdown-menu"
+            :style="widthStyle">
+            <div class="dropdown-content no-scrollbars"
+                :style="[widthStyle, heightStyle, overflow]"
+                @click="attemptClose">
+                <slot name="dropdown-content"/>
             </div>
-        </fade>
+        </div>
     </div>
 </template>
 
 <script>
-
-import vClickOutside from 'v-click-outside';
+import { clickOutside } from '@enso-ui/directives';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
-import { Fade } from '@enso-ui/transitions';
 
 export default {
-    directives: {
-        clickOutside: vClickOutside.directive,
-    },
+    name: 'Dropdown',
 
-    components: { DropdownIndicator, Fade },
+    directives: { clickOutside },
+
+    components: { DropdownIndicator },
 
     props: {
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
         height: {
-            type: Number,
-            default: 16,
+            type: String,
+            default: '16em',
         },
         manual: {
             type: Boolean,
             default: false,
         },
         width: {
-            type: Number,
-            default: 4.5,
+            type: String,
+            default: '4.5em',
         },
     },
 
     data: () => ({
-        hidden: true,
+        closed: true,
     }),
 
     computed: {
         heightStyle() {
             return {
-                'max-height': `${this.height}em`,
+                maxHeight: this.height,
             };
         },
         widthStyle() {
             return {
-                'min-width': `${this.width}em`,
+                minWidth: this.width,
             };
         },
         overflow() {
@@ -73,12 +78,25 @@ export default {
     },
 
     methods: {
-        hide() {
-            this.hidden = true;
+        close() {
+            this.closed = true;
+            this.$emit('close');
         },
-        attemptHide() {
-            if (!this.manual) {
-                this.hide();
+        toggle() {
+            if (!this.disabled) {
+                this.closed = !this.closed;
+                this.$emit(this.closed ? 'close' : 'open');
+            }
+        },
+        open() {
+            if (!this.disabled) {
+                this.closed = false;
+                this.$emit('open');
+            }
+        },
+        attemptClose() {
+            if (!this.closed && !this.manual) {
+                this.close();
             }
         },
     },
