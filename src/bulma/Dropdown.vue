@@ -2,7 +2,8 @@
     <div :class="['dropdown', { 'is-active': !closed }]"
         v-click-outside="close"
         @keydown.escape="close"
-        @keydown.tab="close">
+        @keydown.tab="close"
+        @keydown.enter="attemptClose">
         <div class="dropdown-trigger"
             @focus="open"
             tabindex="0"
