@@ -20,7 +20,7 @@
                         <button class="button input"
                             type="button"
                             @click="open"
-                            @focus="open">
+                            @keydown.enter.prevent="open">
                         <slot name="label"/>
                             <dropdown-indicator :open="visible"/>
                         </button>

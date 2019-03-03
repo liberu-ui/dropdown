@@ -57,10 +57,6 @@ export default {
         },
     },
 
-    beforeDestroy() {
-        this.popper.destroy();
-    },
-
     methods: {
         open() {
             if (this.hidden && !this.disabled) {
@@ -68,7 +64,7 @@ export default {
                 this.$emit('open');
 
                 this.$nextTick(() => {
-                    this.handlePosition();
+                    this.initPopper();
                 });
             }
         },
@@ -76,6 +72,7 @@ export default {
             if (this.visible) {
                 this.hidden = true;
                 this.$emit('close');
+                this.destroyPopper();
             }
         },
         attemptClose() {
@@ -83,18 +80,17 @@ export default {
                 this.close();
             }
         },
-        handlePosition() {
-            if (this.popper !== null) {
-                this.popper.scheduleUpdate();
-                return;
-            }
-
+        initPopper() {
             const reference = this.$el.querySelector(`.${this.triggerSelector}`);
             const popper = this.$el.querySelector(`.${this.dropdownSelector}`);
 
             this.popper = new Popper(reference, popper, {
                 placement: 'bottom',
             });
+        },
+        destroyPopper() {
+            this.popper.destroy();
+            this.popper = null;
         },
     },
 
