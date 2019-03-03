@@ -16,7 +16,8 @@
                     :class="triggerSelector"
                     :style="widthStyle">
                     <slot name="trigger"
-                        :open="open">
+                        :open="open"
+                        :visible="visible">
                         <button class="button input"
                             type="button"
                             @click="open"
