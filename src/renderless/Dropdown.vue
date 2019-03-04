@@ -1,6 +1,4 @@
 <script>
-import Popper from 'popper.js';
-
 export default {
     props: {
         disabled: {
@@ -23,7 +21,6 @@ export default {
 
     data: () => ({
         hidden: true,
-        popper: null,
         triggerSelector: 'trigger-selector',
         dropdownSelector: 'dropdown-selector',
     }),
@@ -62,35 +59,18 @@ export default {
             if (this.hidden && !this.disabled) {
                 this.hidden = false;
                 this.$emit('open');
-
-                this.$nextTick(() => {
-                    this.initPopper();
-                });
             }
         },
         close() {
             if (this.visible) {
                 this.hidden = true;
                 this.$emit('close');
-                this.destroyPopper();
             }
         },
         attemptClose() {
             if (!this.manual) {
                 this.close();
             }
-        },
-        initPopper() {
-            const reference = this.$el.querySelector(`.${this.triggerSelector}`);
-            const popper = this.$el.querySelector(`.${this.dropdownSelector}`);
-
-            this.popper = new Popper(reference, popper, {
-                placement: 'bottom',
-            });
-        },
-        destroyPopper() {
-            this.popper.destroy();
-            this.popper = null;
         },
     },
 
@@ -105,6 +85,25 @@ export default {
             open: this.open,
             close: this.close,
             attemptClose: this.attemptClose,
+            dropdownEvents: {
+                keydown: (e) => {
+                    switch (e.key) {
+                    case 'Escape': case 'Tab':
+                        this.close();
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        if (this.hidden) {
+                            this.open();
+                            break;
+                        }
+                        this.attemptClose();
+                        break;
+                    default:
+                        break;
+                    }
+                },
+            },
         });
     },
 };

@@ -3,15 +3,12 @@
         v-on="$listeners">
         <template v-slot:default="{
                 widthStyle, heightStyle, overflowStyle, triggerSelector, dropdownSelector,
-                visible, open, close, attemptClose,
-
+                visible, open, close, attemptClose, dropdownEvents,
             }">
             <div class="dropdown is-active"
                 :style="widthStyle"
                 v-click-outside="close"
-                @keydown.escape="close"
-                @keydown.tab="close"
-                @keydown.enter.prevent="attemptClose">
+                v-on="dropdownEvents">
                 <div class="dropdown-trigger"
                     :class="triggerSelector"
                     :style="widthStyle">
@@ -20,9 +17,8 @@
                         :visible="visible">
                         <button class="button input"
                             type="button"
-                            @click="open"
-                            @keydown.enter.prevent="open">
-                        <slot name="label"/>
+                            @click="open">
+                            <slot name="label"/>
                             <dropdown-indicator :open="visible"/>
                         </button>
                     </slot>
