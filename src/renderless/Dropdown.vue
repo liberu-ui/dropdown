@@ -1,5 +1,7 @@
 <script>
 export default {
+    name: 'CoreDropdown',
+
     props: {
         disabled: {
             type: Boolean,
