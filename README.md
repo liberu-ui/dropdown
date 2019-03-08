@@ -35,7 +35,7 @@ import Dropdown from '@enso-ui/dropdown/bulma';
 - `Dropdown`,
 
 `@enso-ui/dropdown/renderless`:
-- `Dropdown`,
+- `CoreDropdown`,
 
 ## Contributions
 
