@@ -2,16 +2,14 @@
     <core-dropdown v-bind="$attrs"
         v-on="$listeners">
         <template v-slot:default="{
-                widthStyle, heightStyle, overflowStyle, triggerSelector, dropdownSelector,
-                visible, open, close, attemptClose, dropdownEvents,
+                triggerSelector, dropdownSelector, visible, open, close,
+                attemptClose, dropdownEvents,
             }">
             <div class="dropdown is-active"
-                :style="widthStyle"
                 v-click-outside="close"
                 v-on="dropdownEvents">
                 <div class="dropdown-trigger"
-                    :class="triggerSelector"
-                    :style="widthStyle">
+                    :class="triggerSelector">
                     <slot name="trigger"
                         :open="open"
                         :visible="visible">
@@ -26,14 +24,11 @@
                 <fade>
                     <div class="dropdown-menu"
                         :class="dropdownSelector"
-                        :style="widthStyle"
                         v-if="visible">
-                        <div class="dropdown-content no-scrollbars"
-                            :style="widthStyle"
+                        <div class="dropdown-content"
                             @click="attemptClose">
                             <slot name="controls"/>
-                            <div class="options"
-                                :style="[heightStyle, overflow]">
+                            <div class="options no-scrollbars">
                                 <slot name="options"/>
                             </div>
                         </div>
@@ -45,7 +40,6 @@
 </template>
 
 <script>
-
 import { clickOutside } from '@enso-ui/directives';
 import { Fade } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
@@ -57,45 +51,33 @@ export default {
     directives: { clickOutside },
 
     components: { CoreDropdown, Fade, DropdownIndicator },
-
-    computed: {
-        visible() {
-            return !this.hidden;
-        },
-        heightStyle() {
-            return {
-                maxHeight: this.height,
-            };
-        },
-        widthStyle() {
-            return {
-                minWidth: this.width,
-            };
-        },
-        overflow() {
-            return {
-                overflow: 'auto',
-            };
-        },
-    },
 };
 </script>
 
 <style lang="scss">
-    .dropdown .dropdown-trigger {
-        .button.input {
-            width: 100%;
-            justify-content: flex-start;
-            line-height: 1.5;
-            padding-bottom: calc(0.375em - 1px);
-            padding-left: calc(0.625em - 1px);
-            padding-right: calc(0.625em - 1px);
-            padding-top: calc(0.375em - 1px);
+    .dropdown {
+        .dropdown-trigger {
+            .button.input {
+                min-width: 4em;
+                justify-content: flex-start;
+                line-height: 1.5;
+                padding-bottom: calc(0.375em - 1px);
+                padding-left: calc(0.625em - 1px);
+                padding-right: calc(0.625em - 1px);
+                padding-top: calc(0.375em - 1px);
 
-            .angle {
-                position: absolute;
-                top: 0.33rem;
-                right: 0.5rem;
+                .angle {
+                    position: absolute;
+                    top: 0.33rem;
+                    right: 0.5rem;
+                }
+            }
+        }
+
+        .dropdown-content {
+            width: fit-content;
+            .options {
+                width: inherit;
             }
         }
     }

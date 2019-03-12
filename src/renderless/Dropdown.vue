@@ -7,17 +7,9 @@ export default {
             type: Boolean,
             default: false,
         },
-        height: {
-            type: String,
-            default: '16em',
-        },
         manual: {
             type: Boolean,
             default: false,
-        },
-        width: {
-            type: String,
-            default: '4.5em',
         },
     },
 
@@ -30,21 +22,6 @@ export default {
     computed: {
         visible() {
             return !this.hidden;
-        },
-        heightStyle() {
-            return {
-                maxHeight: this.height,
-            };
-        },
-        widthStyle() {
-            return {
-                minWidth: this.width,
-            };
-        },
-        overflowStyle() {
-            return {
-                overflow: 'auto',
-            };
         },
     },
 
@@ -78,9 +55,6 @@ export default {
 
     render() {
         return this.$scopedSlots.default({
-            widthStyle: this.widthStyle,
-            heightStyle: this.heightStyle,
-            overflowStyle: this.overflowStyle,
             triggerSelector: this.triggerSelector,
             dropdownSelector: this.dropdownSelector,
             visible: this.visible,
