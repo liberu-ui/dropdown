@@ -1,3 +1,3 @@
-import Dropdown from '../src/renderless/Dropdown.vue';
+import CoreDropdown from '../src/renderless/CoreDropdown.vue';
 
-export default Dropdown;
+export default CoreDropdown;

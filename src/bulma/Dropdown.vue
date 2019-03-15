@@ -43,7 +43,7 @@
 import { clickOutside } from '@enso-ui/directives';
 import { Fade } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
-import CoreDropdown from '../renderless/Dropdown.vue';
+import CoreDropdown from '../renderless/CoreDropdown.vue';
 
 export default {
     name: 'Dropdown',
