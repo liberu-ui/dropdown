@@ -5,8 +5,9 @@
                 triggerSelector, dropdownSelector, visible, open, close,
                 attemptClose, dropdownEvents,
             }">
-            <div class="dropdown is-active"
+            <s-dropdown class="dropdown is-active"
                 v-click-outside="close"
+                :isRTL='isRTL'
                 v-on="dropdownEvents">
                 <div class="dropdown-trigger"
                     :class="triggerSelector">
@@ -34,7 +35,7 @@
                         </div>
                     </div>
                 </fade>
-            </div>
+            </s-dropdown>
         </template>
     </core-dropdown>
 </template>
@@ -44,13 +45,21 @@ import { clickOutside } from '@enso-ui/directives';
 import { Fade } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
 import CoreDropdown from '../renderless/CoreDropdown.vue';
+import SDropdown from "./styled/SDropdown";
 
 export default {
     name: 'Dropdown',
 
     directives: { clickOutside },
 
-    components: { CoreDropdown, Fade, DropdownIndicator },
+    props:{
+        isRTL:{
+            type: Boolean,
+            default: false
+        }
+    },
+
+    components: { CoreDropdown, Fade, DropdownIndicator, SDropdown },
 };
 </script>
 
@@ -69,7 +78,7 @@ export default {
                 .angle {
                     position: absolute;
                     top: 0.33rem;
-                    right: 0.5rem;
+                    /* right: 0.5rem; */
                 }
             }
         }
