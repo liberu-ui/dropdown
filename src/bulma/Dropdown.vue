@@ -5,10 +5,10 @@
                 triggerSelector, dropdownSelector, visible, open, close,
                 attemptClose, dropdownEvents,
             }">
-            <s-dropdown class="dropdown is-active"
+            <div class="dropdown is-active"
                 v-click-outside="close"
-                :isRTL='isRTL'
                 v-on="dropdownEvents">
+                <s-dropdown :isRTL='isRTL' >
                 <div class="dropdown-trigger"
                     :class="triggerSelector">
                     <slot name="trigger"
@@ -36,6 +36,7 @@
                     </div>
                 </fade>
             </s-dropdown>
+            </div>
         </template>
     </core-dropdown>
 </template>
@@ -65,6 +66,7 @@ export default {
 
 <style lang="scss">
     .dropdown {
+        display: inline-block;
         .dropdown-trigger {
             .button.input {
                 min-width: 4em;
