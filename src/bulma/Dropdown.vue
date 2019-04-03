@@ -80,7 +80,6 @@ export default {
                 .angle {
                     position: absolute;
                     top: 0.33rem;
-                    /* right: 0.5rem; */
                 }
             }
         }
