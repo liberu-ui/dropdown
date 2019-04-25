@@ -71,7 +71,6 @@ $directions : 'rtl' , 'ltr';
                 .angle {
                     position: absolute;
                     top: 0.33rem;
-                    /* right: 0.5rem; */
                     @if $dir == 'rtl' {
                         [dir='#{$dir}'] & {
                             left: 0.5rem;
