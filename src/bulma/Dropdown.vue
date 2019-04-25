@@ -8,7 +8,6 @@
             <div class="dropdown is-active"
                 v-click-outside="close"
                 v-on="dropdownEvents">
-                <s-dropdown :isRTL='isRTL' >
                 <div class="dropdown-trigger"
                     :class="triggerSelector">
                     <slot name="trigger"
@@ -35,7 +34,6 @@
                         </div>
                     </div>
                 </fade>
-            </s-dropdown>
             </div>
         </template>
     </core-dropdown>
@@ -46,27 +44,20 @@ import { clickOutside } from '@enso-ui/directives';
 import { Fade } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
 import CoreDropdown from '../renderless/CoreDropdown.vue';
-import SDropdown from "./styled/SDropdown";
 
 export default {
     name: 'Dropdown',
 
     directives: { clickOutside },
 
-    props:{
-        isRTL:{
-            type: Boolean,
-            default: false
-        }
-    },
-
-    components: { CoreDropdown, Fade, DropdownIndicator, SDropdown },
+    components: { CoreDropdown, Fade, DropdownIndicator },
 };
 </script>
 
 <style lang="scss">
+$directions : 'rtl' , 'ltr';
+@each $dir in $directions {
     .dropdown {
-        display: inline-block;
         .dropdown-trigger {
             .button.input {
                 min-width: 4em;
@@ -80,6 +71,14 @@ export default {
                 .angle {
                     position: absolute;
                     top: 0.33rem;
+                    @if $dir == 'rtl' {
+                        [dir='#{$dir}'] & {
+                            left: 0.5rem;
+                            right: unset;
+                        }
+                    } @else {
+                        right: 0.5rem;
+                    }
                 }
             }
         }
@@ -91,4 +90,5 @@ export default {
             }
         }
     }
+}
 </style>
