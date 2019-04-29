@@ -55,8 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
-$directions : 'rtl' , 'ltr';
-@each $dir in $directions {
+
     .dropdown {
         .dropdown-trigger {
             .button.input {
@@ -71,13 +70,10 @@ $directions : 'rtl' , 'ltr';
                 .angle {
                     position: absolute;
                     top: 0.33rem;
-                    @if $dir == 'rtl' {
-                        [dir='#{$dir}'] & {
+                    right: 0.5rem;
+                    [dir='rtl'] & {
                             left: 0.5rem;
                             right: unset;
-                        }
-                    } @else {
-                        right: 0.5rem;
                     }
                 }
             }
@@ -90,5 +86,5 @@ $directions : 'rtl' , 'ltr';
             }
         }
     }
-}
+
 </style>
