@@ -55,6 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
+
     .dropdown {
         .dropdown-trigger {
             .button.input {
@@ -69,7 +70,12 @@ export default {
                 .angle {
                     position: absolute;
                     top: 0.33rem;
-                    right: 0.5rem;
+                    [dir='ltr'] & {
+                        right: 0.5rem;
+                    }
+                    [dir='rtl'] & {
+                        left: 0.5rem;
+                    }
                 }
             }
         }
@@ -81,4 +87,5 @@ export default {
             }
         }
     }
+
 </style>
