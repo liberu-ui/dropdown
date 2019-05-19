@@ -15,6 +15,7 @@ export default {
 
     data: () => ({
         hidden: true,
+        opensDown: true,
         triggerSelector: 'trigger-selector',
         dropdownSelector: 'dropdown-selector',
     }),
@@ -30,6 +31,17 @@ export default {
             if (disabled) {
                 this.close();
             }
+        },
+        visible(visible) {
+            if (!visible) {
+                return;
+            }
+
+            this.opensDown = true;
+
+            this.$nextTick(() => {
+                this.updateOpenDirection();
+            });
         },
     },
 
@@ -51,6 +63,16 @@ export default {
                 this.close();
             }
         },
+        updateOpenDirection() {
+            const dropdown = this.$el.querySelector(`.${this.dropdownSelector}`);
+
+            if (dropdown) {
+                const rect = dropdown.getBoundingClientRect();
+
+                this.opensDown = rect.top >= 0 && rect.bottom
+                    <= (window.innerHeight || document.documentElement.clientHeight);
+            }
+        },
     },
 
     render() {
@@ -60,6 +82,7 @@ export default {
             visible: this.visible,
             open: this.open,
             close: this.close,
+            opensUp: !this.opensDown,
             attemptClose: this.attemptClose,
             dropdownEvents: {
                 keydown: (e) => {

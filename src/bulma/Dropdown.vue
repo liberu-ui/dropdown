@@ -3,9 +3,10 @@
         v-on="$listeners">
         <template v-slot:default="{
                 triggerSelector, dropdownSelector, visible, open, close,
-                attemptClose, dropdownEvents,
+                opensUp, attemptClose, dropdownEvents,
             }">
             <div class="dropdown is-active"
+                :class="{ 'is-up': opensUp }"
                 v-click-outside="close"
                 v-on="dropdownEvents">
                 <div class="dropdown-trigger"
@@ -51,6 +52,10 @@ export default {
     directives: { clickOutside },
 
     components: { CoreDropdown, Fade, DropdownIndicator },
+
+    data: () => ({
+        opensTop: false,
+    }),
 };
 </script>
 
