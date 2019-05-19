@@ -3,7 +3,7 @@
         v-on="$listeners">
         <template v-slot:default="{
                 triggerSelector, dropdownSelector, visible, open, close,
-                opensUp, attemptClose, dropdownEvents,
+                opensUp, attemptClose, triggerEvents, dropdownEvents,
             }">
             <div class="dropdown is-active"
                 :class="{ 'is-up': opensUp }"
@@ -16,7 +16,7 @@
                         :visible="visible">
                         <button class="button input"
                             type="button"
-                            @click="open">
+                            @v-on="triggerEvents">
                             <slot name="label"/>
                             <dropdown-indicator :open="visible"/>
                         </button>

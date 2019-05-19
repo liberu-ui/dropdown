@@ -84,6 +84,9 @@ export default {
             close: this.close,
             opensUp: !this.opensDown,
             attemptClose: this.attemptClose,
+            triggerEvents: {
+                click: this.open,
+            },
             dropdownEvents: {
                 keydown: (e) => {
                     switch (e.key) {
