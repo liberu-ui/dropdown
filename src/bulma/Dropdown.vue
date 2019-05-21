@@ -12,11 +12,11 @@
                 <div class="dropdown-trigger"
                     :class="triggerSelector">
                     <slot name="trigger"
-                        :open="open"
+                        :triggerEvents="triggerEvents"
                         :visible="visible">
                         <button class="button input"
                             type="button"
-                            @v-on="triggerEvents">
+                            v-on="triggerEvents">
                             <slot name="label"/>
                             <dropdown-indicator :open="visible"/>
                         </button>
