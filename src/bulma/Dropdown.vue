@@ -13,6 +13,7 @@
                     :class="triggerSelector">
                     <slot name="trigger"
                         :triggerEvents="triggerEvents"
+                        :open="open"
                         :visible="visible">
                         <button class="button input"
                             type="button"
