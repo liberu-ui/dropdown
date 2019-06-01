@@ -636,9 +636,9 @@
     to-fast-properties "^2.0.0"
 
 "@enso-ui/directives@^1.0.0":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@enso-ui/directives/-/directives-1.0.8.tgz#a065328a58987512d1e2d0df9e428ab4c5058cef"
-  integrity sha512-Ar2LxGV/imkzWujQYEfktOQ33cEYmnIRLtVmKNRd5CgqGTthRcN9qHnL4FfXU0ZHsII1+pwENZmOCQf7wLHawQ==
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@enso-ui/directives/-/directives-1.0.9.tgz#2394cd3a0847f4b1851176fd50a6f777e9cb7a85"
+  integrity sha512-L3Ul+gQI0A6ymar0Zjr8zsHFzCGoFKU8GVUc4kXMhKb0SKWEcY5i/qIxs3ctba1ws+a47qDp4a3/aQjaQztIUQ==
   dependencies:
     highlight.js "^9.12.0"
     vue "^2.5.16"
