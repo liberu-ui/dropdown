@@ -8,34 +8,15 @@
 
 Vue Dropdown component
 
-## Usage
-
 All components can be used outside of the Enso ecosystem.
 
-### Demo
+## Demo
 
 For live examples and demos, you may visit [laravel-enso.com](https://www.laravel-enso.com)
 
-Check the full documentation at  [docs.laravel-enso.com](https://docs.laravel-enso.com).
+## Installation, Configuration & Usage
 
-### Installation
-
-Install the package:
-```
-npm i @enso-ui/dropdown
-```
-Import the desired component(s):
-```js
-import Dropdown from '@enso-ui/dropdown/bulma';
-```
-
-## Exports
-
-`@enso-ui/dropdown/bulma`:
-- `Dropdown`,
-
-`@enso-ui/dropdown/renderless`:
-- `CoreDropdown`,
+Be sure to check out the full documentation for this package available at [docs.laravel-enso.com](https://docs.laravel-enso.com/frontend/dropdown.html)
 
 ## Contributions
 
