@@ -7,6 +7,14 @@ export default {
             type: Boolean,
             default: false,
         },
+        dropdownSelector: {
+            type: String,
+            required: true,
+        },
+        itemSelector: {
+            type: String,
+            required: true,
+        },
         manual: {
             type: Boolean,
             default: false,
@@ -14,98 +22,158 @@ export default {
     },
 
     data: () => ({
-        hidden: true,
-        opensDown: true,
-        triggerSelector: 'trigger-selector',
-        dropdownSelector: 'dropdown-selector',
+        currentIndex: 0,
+        items: [],
+        open: false,
+        opensBottom: true,
     }),
-
-    computed: {
-        visible() {
-            return !this.hidden;
-        },
-    },
 
     watch: {
         disabled(disabled) {
             if (disabled) {
-                this.close();
+                this.hide();
             }
         },
-        visible(visible) {
-            if (!visible) {
-                return;
+        open(open) {
+            if (open) {
+                this.opensBottom = true;
+                this.$nextTick(() => {
+                    this.opensBottom = this.shouldOpenBeneath();
+                });
             }
-
-            this.opensDown = true;
-
-            this.$nextTick(() => {
-                this.updateOpenDirection();
-            });
         },
     },
 
     methods: {
-        open() {
-            if (this.hidden && !this.disabled) {
-                this.hidden = false;
-                this.$emit('open');
-            }
-        },
-        close() {
-            if (this.visible) {
-                this.hidden = true;
-                this.$emit('close');
-            }
-        },
-        attemptClose() {
+        attemptHide() {
             if (!this.manual) {
-                this.close();
+                this.hide();
             }
         },
-        updateOpenDirection() {
-            const dropdown = this.$el.querySelector(`.${this.dropdownSelector}`);
+        hide() {
+            if (this.open) {
+                this.open = false;
+                this.currentIndex = 0;
+                this.items = [];
+                this.$emit('hide');
+            }
+        },
+        keydown(e) {
+            switch (e.key) {
+            case 'Escape': case 'Tab':
+                this.hide();
+                break;
+            case 'ArrowDown':
+                this.nextIndex();
+                e.preventDefault();
+                break;
+            case 'ArrowUp':
+                this.previousIndex();
+                e.preventDefault();
+                break;
+            case 'Enter':
+                e.preventDefault();
+                if (!this.open) {
+                    this.show();
+                    break;
+                }
+                this.select(this.currentIndex);
+                this.attemptHide();
+                break;
+            default:
+                break;
+            }
+        },
+        nextIndex() {
+            if (this.disabled || this.items.length === 0) {
+                return;
+            }
+
+            const index = this.currentIndex + 1 > this.items.length - 1
+                ? 0
+                : this.currentIndex + 1;
+
+            this.updateCurrent(index);
+            this.scrollIntoView();
+        },
+        previousIndex() {
+            if (this.disabled || this.items.length === 0) {
+                return;
+            }
+
+            const index = this.currentIndex === 0
+                ? this.items.length - 1
+                : this.currentIndex - 1;
+
+            this.updateCurrent(index);
+            this.scrollIntoView();
+        },
+        register(item) {
+            this.items.push(item);
+        },
+        scrollIntoView() {
+            const items = this.$el.querySelectorAll(this.itemSelector);
+
+            items[this.currentIndex]
+                .scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        },
+        select(index) {
+            this.items[index].select();
+            this.attemptHide();
+        },
+        show() {
+            if (!this.open && !this.disabled) {
+                this.open = true;
+                this.$emit('show');
+            }
+        },
+        toggle() {
+            if (this.open) {
+                this.hide();
+            } else {
+                this.show();
+            }
+        },
+        updateCurrent(index) {
+            this.currentIndex = index;
+            this.$emit('update-index', index);
+        },
+        shouldOpenBeneath() {
+            const dropdown = this.$el.querySelector(this.dropdownSelector);
 
             if (dropdown) {
-                const rect = dropdown.getBoundingClientRect();
+                const bounding = dropdown.getBoundingClientRect();
 
-                this.opensDown = rect.top >= 0 && rect.bottom
+                return bounding.top >= 0 && bounding.bottom
                     <= (window.innerHeight || document.documentElement.clientHeight);
             }
+
+            return true;
         },
+    },
+
+    provide() {
+        return {
+            register: this.register,
+        };
     },
 
     render() {
         return this.$scopedSlots.default({
-            triggerSelector: this.triggerSelector,
-            dropdownSelector: this.dropdownSelector,
-            visible: this.visible,
+            dropdownEvents: { keydown: this.keydown },
+            hide: this.hide,
+            itemBindings: (selected, index) => ({
+                selected,
+                current: index === this.currentIndex,
+            }),
+            itemEvents: index => ({
+                click: () => this.select(index),
+                mouseenter: () => this.updateCurrent(index),
+            }),
             open: this.open,
-            close: this.close,
-            opensUp: !this.opensDown,
-            attemptClose: this.attemptClose,
-            triggerEvents: {
-                click: this.open,
-            },
-            dropdownEvents: {
-                keydown: (e) => {
-                    switch (e.key) {
-                    case 'Escape': case 'Tab':
-                        this.close();
-                        break;
-                    case 'Enter':
-                        e.preventDefault();
-                        if (this.hidden) {
-                            this.open();
-                            break;
-                        }
-                        this.attemptClose();
-                        break;
-                    default:
-                        break;
-                    }
-                },
-            },
+            opensBottom: this.opensBottom,
+            show: this.show,
+            triggerEvents: { click: this.toggle },
         });
     },
 };

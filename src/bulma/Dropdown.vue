@@ -1,37 +1,38 @@
 <template>
     <core-dropdown v-bind="$attrs"
+        dropdown-selector=".dropdown-menu"
+        item-selector=".dropdown-item"
         v-on="$listeners">
         <template v-slot:default="{
-                triggerSelector, dropdownSelector, visible, open, close,
-                opensUp, attemptClose, triggerEvents, dropdownEvents,
+                dropdownEvents, hide, itemBindings, itemEvents,
+                open, opensBottom, show, triggerEvents,
             }">
             <div class="dropdown is-active"
-                :class="{ 'is-up': opensUp }"
-                v-click-outside="close"
+                :class="{ 'is-up': !opensBottom }"
+                v-click-outside="hide"
                 v-on="dropdownEvents">
-                <div class="dropdown-trigger"
-                    :class="triggerSelector">
+                <div class="dropdown-trigger">
                     <slot name="trigger"
-                        :triggerEvents="triggerEvents"
                         :open="open"
-                        :visible="visible">
+                        :show="show"
+                        :trigger-events="triggerEvents">
                         <button class="button input"
                             type="button"
                             v-on="triggerEvents">
                             <slot name="label"/>
-                            <dropdown-indicator :open="visible"/>
+                            <dropdown-indicator :open="open"/>
                         </button>
                     </slot>
                 </div>
                 <fade>
                     <div class="dropdown-menu"
-                        :class="dropdownSelector"
-                        v-if="visible">
-                        <div class="dropdown-content"
-                            @click="attemptClose">
+                        v-if="open">
+                        <div class="dropdown-content">
                             <slot name="controls"/>
-                            <div class="options no-scrollbars">
-                                <slot name="options"/>
+                            <div class="items no-scrollbars">
+                                <slot name="items"
+                                    :item-bindings="itemBindings"
+                                    :item-events="itemEvents"/>
                             </div>
                         </div>
                     </div>
@@ -53,10 +54,6 @@ export default {
     directives: { clickOutside },
 
     components: { CoreDropdown, Fade, DropdownIndicator },
-
-    data: () => ({
-        opensTop: false,
-    }),
 };
 </script>
 
@@ -86,9 +83,13 @@ export default {
             }
         }
 
+        .dropdown-menu {
+            min-width: unset;
+        }
+
         .dropdown-content {
             width: fit-content;
-            .options {
+            .items {
                 width: inherit;
             }
         }
