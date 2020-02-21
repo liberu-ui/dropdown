@@ -3,10 +3,7 @@
         dropdown-selector=".dropdown-menu"
         item-selector=".dropdown-item"
         v-on="$listeners">
-        <template v-slot:default="{
-                dropdownEvents, hide, itemBindings, itemEvents,
-                open, opensBottom, show, triggerEvents,
-            }">
+        <template v-slot:default="{ dropdownEvents, hide, open, opensBottom, show, triggerEvents }">
             <div class="dropdown is-active"
                 :class="{ 'is-up': !opensBottom }"
                 v-click-outside="hide"
@@ -30,9 +27,7 @@
                         <div class="dropdown-content">
                             <slot name="controls"/>
                             <div class="items no-scrollbars">
-                                <slot name="items"
-                                    :item-bindings="itemBindings"
-                                    :item-events="itemEvents"/>
+                                <slot name="items"/>
                             </div>
                         </div>
                     </div>
@@ -90,6 +85,8 @@ export default {
         .dropdown-content {
             width: fit-content;
             .items {
+                max-height: 12.4em;
+                overflow: auto;
                 width: inherit;
             }
         }

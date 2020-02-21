@@ -2,26 +2,31 @@
 export default {
     name: 'CoreDropdownItem',
 
-    inject: ['register'],
+    inject: ['attemptHide', 'deregister', 'makeCurrent', 'register'],
 
     props: {
-        current: {
-            type: Boolean,
-            default: false,
-        },
         selected: {
             type: Boolean,
             default: false,
         },
     },
 
+    data: () => ({
+        current: false,
+    }),
+
     created() {
         this.register(this);
+    },
+
+    beforeDestroy() {
+        this.deregister(this);
     },
 
     methods: {
         select() {
             this.$emit('select');
+            this.attemptHide();
         },
     },
 
@@ -29,8 +34,8 @@ export default {
         return this.$scopedSlots.default({
             current: this.current,
             events: {
-                click: () => this.$emit('click'),
-                mouseenter: () => this.$emit('mouseenter'),
+                click: this.select,
+                mouseenter: () => this.makeCurrent(this),
             },
             selected: this.selected,
         });

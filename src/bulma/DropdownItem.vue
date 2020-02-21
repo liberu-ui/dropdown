@@ -5,7 +5,8 @@
         <a class="dropdown-item"
             :class="{ 'is-active': selected, 'has-background-light': current && !selected }"
             v-on="events">
-            <slot/>
+            <slot name="default"
+                :current="current"/>
         </a>
     </core-dropdown-item>
 </template>

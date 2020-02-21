@@ -11,10 +11,6 @@ export default {
             type: String,
             required: true,
         },
-        itemSelector: {
-            type: String,
-            required: true,
-        },
         manual: {
             type: Boolean,
             default: false,
@@ -22,11 +18,19 @@ export default {
     },
 
     data: () => ({
-        currentIndex: 0,
         items: [],
         open: false,
         opensBottom: true,
     }),
+
+    computed: {
+        current() {
+            return this.items[this.currentIndex];
+        },
+        currentIndex() {
+            return this.items.findIndex(({ current }) => current);
+        },
+    },
 
     watch: {
         disabled(disabled) {
@@ -50,11 +54,23 @@ export default {
                 this.hide();
             }
         },
+        deregister(item) {
+            // eslint-disable-next-line no-underscore-dangle
+            let index = this.items.findIndex(({ _uid }) => _uid === item._uid);
+            this.items.splice(index, 1);
+            const count = this.items.length;
+
+            if (item.current && count > 0) {
+                index = count >= index
+                    ? index
+                    : count - 1;
+
+                this.items[index].current = true;
+            }
+        },
         hide() {
             if (this.open) {
                 this.open = false;
-                this.currentIndex = 0;
-                this.items = [];
                 this.$emit('hide');
             }
         },
@@ -77,12 +93,17 @@ export default {
                     this.show();
                     break;
                 }
-                this.select(this.currentIndex);
+                this.select();
                 this.attemptHide();
                 break;
             default:
                 break;
             }
+        },
+        makeCurrent({ _uid }) {
+            this.items.forEach(item => (item.current = item._uid === _uid));
+
+            this.scrollIntoView();
         },
         nextIndex() {
             if (this.disabled || this.items.length === 0) {
@@ -93,8 +114,7 @@ export default {
                 ? 0
                 : this.currentIndex + 1;
 
-            this.updateCurrent(index);
-            this.scrollIntoView();
+            this.makeCurrent(this.items[index]);
         },
         previousIndex() {
             if (this.disabled || this.items.length === 0) {
@@ -105,20 +125,23 @@ export default {
                 ? this.items.length - 1
                 : this.currentIndex - 1;
 
-            this.updateCurrent(index);
-            this.scrollIntoView();
+            this.makeCurrent(this.items[index]);
         },
         register(item) {
+            if (this.items.length === 0) {
+                item.current = true;
+            }
+
             this.items.push(item);
         },
         scrollIntoView() {
-            const items = this.$el.querySelectorAll(this.itemSelector);
-
-            items[this.currentIndex]
-                .scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if (this.current) {
+                this.current.$el
+                    .scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         },
-        select(index) {
-            this.items[index].select();
+        select() {
+            this.current.select();
             this.attemptHide();
         },
         show() {
@@ -133,10 +156,6 @@ export default {
             } else {
                 this.show();
             }
-        },
-        updateCurrent(index) {
-            this.currentIndex = index;
-            this.$emit('update-index', index);
         },
         shouldOpenBeneath() {
             const dropdown = this.$el.querySelector(this.dropdownSelector);
@@ -154,6 +173,9 @@ export default {
 
     provide() {
         return {
+            attemptHide: this.attemptHide,
+            deregister: this.deregister,
+            makeCurrent: this.makeCurrent,
             register: this.register,
         };
     },
@@ -162,14 +184,6 @@ export default {
         return this.$scopedSlots.default({
             dropdownEvents: { keydown: this.keydown },
             hide: this.hide,
-            itemBindings: (selected, index) => ({
-                selected,
-                current: index === this.currentIndex,
-            }),
-            itemEvents: index => ({
-                click: () => this.select(index),
-                mouseenter: () => this.updateCurrent(index),
-            }),
             open: this.open,
             opensBottom: this.opensBottom,
             show: this.show,
