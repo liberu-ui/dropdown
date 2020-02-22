@@ -4,7 +4,7 @@
         item-selector=".dropdown-item"
         v-on="$listeners">
         <template v-slot:default="{ dropdownEvents, hide, open, opensBottom, show, triggerEvents }">
-            <div class="dropdown is-active"
+            <div class="dropdown is-active vue-dropdown"
                 :class="{ 'is-up': !opensBottom }"
                 v-click-outside="hide"
                 v-on="dropdownEvents">
@@ -22,7 +22,7 @@
                     </slot>
                 </div>
                 <fade>
-                    <div class="dropdown-menu"
+                    <div class="dropdown-menu zoom"
                         v-if="open">
                         <div class="dropdown-content">
                             <slot name="controls"/>
@@ -54,7 +54,7 @@ export default {
 
 <style lang="scss">
 
-    .dropdown {
+    .dropdown.vue-dropdown {
         .dropdown-trigger {
             .button.input {
                 min-width: 4em;
