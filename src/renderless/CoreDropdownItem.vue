@@ -2,7 +2,7 @@
 export default {
     name: 'CoreDropdownItem',
 
-    inject: ['attemptHide', 'deregister', 'makeCurrent', 'register'],
+    inject: ['attemptHide', 'deregister', 'itemSelector', 'makeCurrent', 'register'],
 
     props: {
         selected: {
@@ -21,6 +21,11 @@ export default {
 
     beforeDestroy() {
         this.deregister(this);
+    },
+
+    mounted() {
+        this.$el.__item__ = this;
+        this.$el.setAttribute(this.itemSelector, true);
     },
 
     methods: {

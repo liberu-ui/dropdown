@@ -1,7 +1,5 @@
 <template>
     <core-dropdown v-bind="$attrs"
-        dropdown-selector=".dropdown-menu"
-        item-selector=".dropdown-item"
         v-on="$listeners">
         <template v-slot:default="{ dropdownEvents, hide, open, opensBottom, show, triggerEvents }">
             <div class="dropdown is-active vue-dropdown"
@@ -22,7 +20,7 @@
                     </slot>
                 </div>
                 <fade>
-                    <div class="dropdown-menu zoom"
+                    <div class="dropdown-menu"
                         v-if="open">
                         <div class="dropdown-content">
                             <slot name="controls"/>

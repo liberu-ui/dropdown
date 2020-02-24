@@ -9,7 +9,11 @@ export default {
         },
         dropdownSelector: {
             type: String,
-            required: true,
+            default: 'dropdown',
+        },
+        itemSelector: {
+            type: String,
+            default: 'dropdown-item',
         },
         manual: {
             type: Boolean,
@@ -25,10 +29,7 @@ export default {
 
     computed: {
         current() {
-            return this.items[this.currentIndex];
-        },
-        currentIndex() {
-            return this.items.findIndex(({ current }) => current);
+            return this.items.find(({ current }) => current);
         },
     },
 
@@ -48,24 +49,27 @@ export default {
         },
     },
 
+    mounted() {
+        this.$el.setAttribute(this.dropdownSelector, true);
+    },
+
     methods: {
         attemptHide() {
             if (!this.manual) {
                 this.hide();
             }
         },
+        currentIndex() {
+            return this.renderedItems().findIndex(item => item.current);
+        },
         deregister(item) {
             // eslint-disable-next-line no-underscore-dangle
-            let index = this.items.findIndex(({ _uid }) => _uid === item._uid);
+            const index = this.items.findIndex(({ _uid }) => _uid === item._uid);
+
             this.items.splice(index, 1);
-            const count = this.items.length;
 
-            if (item.current && count > 0) {
-                index = count >= index
-                    ? index
-                    : count - 1;
-
-                this.items[index].current = true;
+            if (item.current && this.items.length) {
+                this.items[0].current = true;
             }
         },
         hide() {
@@ -73,6 +77,16 @@ export default {
                 this.open = false;
                 this.$emit('hide');
             }
+        },
+        item(index) {
+            const els = this.renderedItems();
+
+            return els[index];
+        },
+        renderedItems() {
+            const nodelist = this.$el.querySelectorAll(`[${this.itemSelector}=true]`);
+
+            return Array.from(nodelist).map(node => node.__item__);
         },
         keydown(e) {
             switch (e.key) {
@@ -110,22 +124,24 @@ export default {
                 return;
             }
 
-            const index = this.currentIndex + 1 > this.items.length - 1
+            const currentIndex = this.currentIndex();
+            const index = currentIndex + 1 > this.items.length - 1
                 ? 0
-                : this.currentIndex + 1;
+                : currentIndex + 1;
 
-            this.makeCurrent(this.items[index]);
+            this.makeCurrent(this.item(index));
         },
         previousIndex() {
             if (this.disabled || this.items.length === 0) {
                 return;
             }
 
-            const index = this.currentIndex === 0
+            const currentIndex = this.currentIndex();
+            const index = currentIndex === 0
                 ? this.items.length - 1
-                : this.currentIndex - 1;
+                : currentIndex - 1;
 
-            this.makeCurrent(this.items[index]);
+            this.makeCurrent(this.item(index));
         },
         register(item) {
             if (this.items.length === 0) {
@@ -158,7 +174,7 @@ export default {
             }
         },
         shouldOpenBeneath() {
-            const dropdown = this.$el.querySelector(this.dropdownSelector);
+            const dropdown = this.$el.querySelector(`[${this.dropdownSelector}=true]`);
 
             if (dropdown) {
                 const bounding = dropdown.getBoundingClientRect();
@@ -175,6 +191,7 @@ export default {
         return {
             attemptHide: this.attemptHide,
             deregister: this.deregister,
+            itemSelector: this.itemSelector,
             makeCurrent: this.makeCurrent,
             register: this.register,
         };
