@@ -39,7 +39,10 @@ export default {
         return this.$scopedSlots.default({
             current: this.current,
             events: {
-                click: this.select,
+                click: (event) => {
+                    this.select(event);
+                    event.stopPropagation();
+                },
                 mouseenter: () => this.makeCurrent(this),
             },
             selected: this.selected,

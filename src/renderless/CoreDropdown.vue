@@ -204,7 +204,12 @@ export default {
             open: this.open,
             opensBottom: this.opensBottom,
             show: this.show,
-            triggerEvents: { click: this.toggle },
+            triggerEvents: {
+                click: (event) => {
+                    this.toggle();
+                    event.stopPropagation();
+                },
+            },
         });
     },
 };
