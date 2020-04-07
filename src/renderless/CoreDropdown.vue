@@ -90,8 +90,11 @@ export default {
         },
         keydown(e) {
             switch (e.key) {
-            case 'Escape': case 'Tab':
+            case 'Escape':
                 this.hide();
+                break;
+            case 'Tab':
+                this.attemptHide();
                 break;
             case 'ArrowDown':
                 this.nextIndex();
@@ -205,10 +208,7 @@ export default {
             opensBottom: this.opensBottom,
             show: this.show,
             triggerEvents: {
-                click: (event) => {
-                    this.toggle();
-                    event.stopPropagation();
-                },
+                click: this.toggle,
             },
         });
     },

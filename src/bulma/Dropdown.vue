@@ -1,6 +1,7 @@
 <template>
     <core-dropdown v-bind="$attrs"
-        v-on="$listeners">
+        v-on="$listeners"
+        ref="dropdown">
         <template v-slot:default="{ dropdownEvents, hide, open, opensBottom, show, triggerEvents }">
             <div class="dropdown is-active vue-dropdown"
                 :class="{ 'is-up': !opensBottom }"
@@ -23,7 +24,8 @@
                     <div class="dropdown-menu"
                         v-if="open">
                         <div class="dropdown-content">
-                            <slot name="controls"/>
+                            <slot name="controls"
+                                :hide="hide"/>
                             <div class="items no-scrollbars">
                                 <slot name="items"/>
                             </div>
@@ -47,6 +49,12 @@ export default {
     directives: { clickOutside },
 
     components: { CoreDropdown, Fade, DropdownIndicator },
+
+    methods: {
+        hide() {
+            this.$refs.dropdown.hide();
+        },
+    },
 };
 </script>
 

@@ -2,5 +2,6 @@
 /.vscode
 /.idea
 npm-debug.log
+yarn.lock
 .DS_STORE
 ._*
