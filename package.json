@@ -26,7 +26,6 @@
         "@enso-ui/dropdown-indicator": "1.0.x",
         "@enso-ui/mixins": "1.1.x",
         "@enso-ui/transitions": "1.0.x",
-        "popper.js": "^1.14.7",
         "vue": "^2.5.16"
     },
     "devDependencies": {
