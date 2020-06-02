@@ -5,7 +5,7 @@
         <template v-slot:default="{ dropdownEvents, hide, open, opensBottom, show, triggerEvents }">
             <div class="dropdown is-active vue-dropdown"
                 :class="{ 'is-up': !opensBottom }"
-                v-click-outside="hide"
+                v-click-outside.deep="hide"
                 v-on="dropdownEvents">
                 <div class="dropdown-trigger">
                     <slot name="trigger"
