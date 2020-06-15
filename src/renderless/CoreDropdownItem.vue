@@ -2,7 +2,7 @@
 export default {
     name: 'CoreDropdownItem',
 
-    inject: ['attemptHide', 'deregister', 'itemSelector', 'makeCurrent', 'register'],
+    inject: ['attemptHide', 'disableControls', 'deregister', 'itemSelector', 'makeCurrent', 'register'],
 
     props: {
         selected: {
@@ -30,8 +30,10 @@ export default {
 
     methods: {
         select() {
-            this.$emit('select');
-            this.attemptHide();
+            if (!this.disableControls) {
+                this.$emit('select');
+                this.attemptHide();
+            }
         },
     },
 

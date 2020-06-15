@@ -9,6 +9,7 @@
                 v-on="dropdownEvents">
                 <div class="dropdown-trigger">
                     <slot name="trigger"
+                        :hide="hide"
                         :open="open"
                         :show="show"
                         :trigger-events="triggerEvents">

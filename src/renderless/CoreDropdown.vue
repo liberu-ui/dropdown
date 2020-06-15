@@ -3,6 +3,10 @@ export default {
     name: 'CoreDropdown',
 
     props: {
+        disableControls: {
+            type: Boolean,
+            default: false,
+        },
         disabled: {
             type: Boolean,
             default: false,
@@ -60,7 +64,7 @@ export default {
             }
         },
         currentIndex() {
-            return this.renderedItems().findIndex(item => item.current);
+            return this.renderedItems().findIndex((item) => item.current);
         },
         deregister(item) {
             // eslint-disable-next-line no-underscore-dangle
@@ -86,9 +90,13 @@ export default {
         renderedItems() {
             const nodelist = this.$el.querySelectorAll(`[${this.itemSelector}=true]`);
 
-            return Array.from(nodelist).map(node => node.__item__);
+            return Array.from(nodelist).map((node) => node.__item__);
         },
         keydown(e) {
+            if (this.disableControls) {
+                return;
+            }
+
             switch (e.key) {
             case 'Escape':
                 this.hide();
@@ -118,9 +126,10 @@ export default {
             }
         },
         makeCurrent({ _uid }) {
-            this.items.forEach(item => (item.current = item._uid === _uid));
-
-            this.scrollIntoView();
+            if (!this.disableControls) {
+                this.items.forEach((item) => (item.current = item._uid === _uid));
+                this.scrollIntoView();
+            }
         },
         nextIndex() {
             if (this.disabled || this.items.length === 0) {
@@ -147,7 +156,7 @@ export default {
             this.makeCurrent(this.item(index));
         },
         register(item) {
-            if (this.items.length === 0) {
+            if (this.items.length === 0 && !this.disableControls) {
                 item.current = true;
             }
 
@@ -193,6 +202,7 @@ export default {
     provide() {
         return {
             attemptHide: this.attemptHide,
+            disableControls: this.disableControls,
             deregister: this.deregister,
             itemSelector: this.itemSelector,
             makeCurrent: this.makeCurrent,
