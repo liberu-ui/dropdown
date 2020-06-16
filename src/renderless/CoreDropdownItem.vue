@@ -30,7 +30,7 @@ export default {
 
     methods: {
         select() {
-            if (!this.disableControls) {
+            if (!this.disableControls()) {
                 this.$emit('select');
                 this.attemptHide();
             }

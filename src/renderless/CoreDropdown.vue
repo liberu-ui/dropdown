@@ -202,7 +202,7 @@ export default {
     provide() {
         return {
             attemptHide: this.attemptHide,
-            disableControls: this.disableControls,
+            disableControls: () => this.disableControls,
             deregister: this.deregister,
             itemSelector: this.itemSelector,
             makeCurrent: this.makeCurrent,
