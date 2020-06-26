@@ -2,7 +2,9 @@
     <core-dropdown v-bind="$attrs"
         v-on="$listeners"
         ref="dropdown">
-        <template v-slot:default="{ dropdownEvents, hide, open, opensBottom, show, triggerEvents }">
+        <template v-slot:default="{
+            dropdownEvents, hide, open, opensBottom, selection, show, triggerEvents
+        }">
             <div class="dropdown is-active vue-dropdown"
                 :class="{ 'is-up': !opensBottom }"
                 v-click-outside="hide"
@@ -12,6 +14,7 @@
                         :hide="hide"
                         :open="open"
                         :show="show"
+                        :selection="selection"
                         :trigger-events="triggerEvents">
                         <button class="button input"
                             type="button"

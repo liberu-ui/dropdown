@@ -114,12 +114,14 @@ export default {
                 break;
             case 'Enter':
                 e.preventDefault();
+
                 if (!this.open) {
                     this.show();
                     break;
                 }
+
                 this.select();
-                this.attemptHide();
+
                 break;
             default:
                 break;
@@ -169,7 +171,10 @@ export default {
             }
         },
         select() {
-            this.current.select();
+            if (this.current) {
+                this.current.select();
+            }
+
             this.attemptHide();
         },
         show() {
@@ -212,6 +217,7 @@ export default {
 
     render() {
         return this.$scopedSlots.default({
+            selection: !!this.current,
             dropdownEvents: { keydown: this.keydown },
             hide: this.hide,
             open: this.open,
