@@ -58,6 +58,9 @@ export default {
         hide() {
             this.$refs.dropdown.hide();
         },
+        show() {
+            this.$refs.dropdown.show();
+        },
     },
 };
 </script>
