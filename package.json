@@ -21,10 +21,8 @@
     },
     "homepage": "https://github.com/enso-ui/dropdown#readme",
     "dependencies": {
-        "@enso-ui/confirmation": "^1.0",
         "@enso-ui/directives": "^1.0",
         "@enso-ui/dropdown-indicator": "^1.0",
-        "@enso-ui/mixins": "^2.0",
         "@enso-ui/transitions": "^1.0",
         "vue": "^2.5.16"
     },
