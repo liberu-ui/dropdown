@@ -2,7 +2,7 @@
     <core-dropdown v-bind="$attrs"
         v-on="$listeners"
         ref="dropdown">
-        <template v-slot:default="{
+        <template #:default="{
             dropdownEvents, hide, open, opensBottom, selection, show, triggerEvents
         }">
             <div class="dropdown is-active vue-dropdown"
