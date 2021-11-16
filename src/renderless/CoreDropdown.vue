@@ -216,7 +216,7 @@ export default {
     },
 
     render() {
-        return this.$scopedSlots.default({
+        return this.$slots.default({
             selection: !!this.current,
             dropdownEvents: { keydown: this.keydown },
             hide: this.hide,

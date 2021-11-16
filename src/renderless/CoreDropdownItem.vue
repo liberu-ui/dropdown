@@ -38,7 +38,7 @@ export default {
     },
 
     render() {
-        return this.$scopedSlots.default({
+        return this.$slots.default({
             current: this.current,
             events: {
                 click: this.select,
