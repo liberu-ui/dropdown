@@ -1,5 +1,5 @@
 <template>
-    <core-dropdown v-bind="$attrs"   
+    <core-dropdown v-bind="$attrs"
         ref="dropdown">
         <template #default="{
             dropdownEvents, hide, open, opensBottom, selection, show, triggerEvents
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { clickOutside } from '@enso-ui/directives';
 import { Fade } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
@@ -51,7 +52,9 @@ export default {
 
     directives: { clickOutside },
 
-    components: { CoreDropdown, Fade, DropdownIndicator },
+    components: {
+        Fa, CoreDropdown, Fade, DropdownIndicator,
+    },
 
     methods: {
         hide() {
