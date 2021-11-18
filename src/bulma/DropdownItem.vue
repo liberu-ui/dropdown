@@ -1,6 +1,6 @@
 <template>
     <core-dropdown-item #default="{ current, events, selected }"
-        v-bind="$attrs"   >
+        v-bind="$attrs">
         <a class="dropdown-item"
             :class="{ 'is-active': selected, 'has-background-light': current && !selected }"
             v-on="events">
