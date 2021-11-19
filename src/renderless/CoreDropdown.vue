@@ -29,11 +29,15 @@ export default {
         items: [],
         open: false,
         opensBottom: true,
+        ref: 'root',
     }),
 
     computed: {
         current() {
             return this.items.find(({ current }) => current);
+        },
+        el() {
+            return this.$parent.$refs[this.ref];
         },
     },
 
@@ -54,7 +58,7 @@ export default {
     },
 
     mounted() {
-        this.$el.setAttribute(this.dropdownSelector, true);
+        this.el.setAttribute(this.dropdownSelector, true);
     },
 
     methods: {
@@ -88,7 +92,7 @@ export default {
             return els[index];
         },
         renderedItems() {
-            const nodelist = this.$el.querySelectorAll(`[${this.itemSelector}=true]`);
+            const nodelist = this.el.querySelectorAll(`[${this.itemSelector}=true]`);
 
             return Array.from(nodelist).map((node) => node.__item__);
         },
@@ -166,7 +170,7 @@ export default {
         },
         scrollIntoView() {
             if (this.current) {
-                this.current.$el
+                this.current.el
                     .scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         },
@@ -191,7 +195,7 @@ export default {
             }
         },
         shouldOpenBeneath() {
-            const dropdown = this.$el.querySelector(`[${this.dropdownSelector}=true]`);
+            const dropdown = this.el.querySelector(`[${this.dropdownSelector}=true]`);
 
             if (dropdown) {
                 const bounding = dropdown.getBoundingClientRect();
@@ -223,6 +227,7 @@ export default {
             open: this.open,
             opensBottom: this.opensBottom,
             show: this.show,
+            ref: this.ref,
             triggerEvents: {
                 click: this.toggle,
             },

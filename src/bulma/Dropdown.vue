@@ -2,10 +2,12 @@
     <core-dropdown v-bind="$attrs"
         ref="dropdown">
         <template #default="{
-            dropdownEvents, hide, open, opensBottom, selection, show, triggerEvents
+            dropdownEvents, hide, open, opensBottom,
+            ref, selection, show, triggerEvents
         }">
             <div class="dropdown is-active vue-dropdown"
                 :class="{ 'is-up': !opensBottom }"
+                :ref="ref"
                 v-click-outside="hide"
                 v-on="dropdownEvents">
                 <div class="dropdown-trigger">

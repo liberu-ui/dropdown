@@ -13,7 +13,14 @@ export default {
 
     data: () => ({
         current: false,
+        ref: 'item',
     }),
+
+    computed: {
+        el() {
+            return this.$parent.$refs[this.ref];
+        },
+    },
 
     created() {
         this.register(this);
@@ -24,8 +31,8 @@ export default {
     },
 
     mounted() {
-        this.$el.__item__ = this;
-        this.$el.setAttribute(this.itemSelector, true);
+        this.el.__item__ = this;
+        this.el.setAttribute(this.itemSelector, true);
     },
 
     methods: {
@@ -44,6 +51,7 @@ export default {
                 click: this.select,
                 mouseenter: () => this.makeCurrent(this),
             },
+            ref: this.ref,
             selected: this.selected,
         });
     },
