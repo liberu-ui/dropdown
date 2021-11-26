@@ -2,7 +2,11 @@
     <core-dropdown-item #default="{ current, events, ref, selected }"
         v-bind="$attrs">
         <a class="dropdown-item"
-            :class="{ 'is-active': selected, 'has-background-light': current && !selected }"
+            :class="[{
+                'is-active': selected,
+                'has-background-light': current && !selected },
+                $attrs.class
+            ]"
             :ref="ref"
             v-on="events">
             <slot name="default"

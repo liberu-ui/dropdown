@@ -6,7 +6,7 @@
             ref, selection, show, triggerEvents
         }">
             <div class="dropdown is-active vue-dropdown"
-                :class="{ 'is-up': !opensBottom }"
+                :class="[{'is-up': !opensBottom}, $attrs.class]"
                 :ref="ref"
                 v-click-outside="hide"
                 v-on="dropdownEvents">

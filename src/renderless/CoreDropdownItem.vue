@@ -26,7 +26,7 @@ export default {
         this.register(this);
     },
 
-    beforeDestroy() {
+    beforeUnmount() {
         this.deregister(this);
     },
 
