@@ -25,11 +25,11 @@ export default {
         },
     },
 
+    emits: ['hide', 'show'],
+
     data: () => ({
         items: [],
         open: false,
-        opensBottom: true,
-        ref: 'root',
     }),
 
     computed: {
@@ -37,7 +37,7 @@ export default {
             return this.items.find(({ current }) => current);
         },
         el() {
-            return this.$parent.$refs[this.ref];
+            return this.$parent.$el;
         },
     },
 
@@ -45,14 +45,6 @@ export default {
         disabled(disabled) {
             if (disabled) {
                 this.hide();
-            }
-        },
-        open(open) {
-            if (open) {
-                this.opensBottom = true;
-                this.$nextTick(() => {
-                    this.opensBottom = this.shouldOpenBeneath();
-                });
             }
         },
     },
@@ -222,14 +214,15 @@ export default {
     render() {
         return this.$slots.default({
             selection: !!this.current,
-            dropdownEvents: { keydown: this.keydown },
+            keydown: { keydown: this.keydown },
             hide: this.hide,
             open: this.open,
-            opensBottom: this.opensBottom,
             show: this.show,
-            ref: this.ref,
             triggerEvents: {
-                click: this.toggle,
+                click: event => {
+                    this.toggle();
+                    event.stopPropagation();
+                },
             },
         });
     },
