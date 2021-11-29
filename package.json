@@ -1,6 +1,6 @@
 {
     "name": "@enso-ui/dropdown",
-    "version": "3.0.9",
+    "version": "3.0.10",
     "description": "Vue Dropdown component",
     "main": "index.js",
     "scripts": {
