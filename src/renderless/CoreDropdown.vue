@@ -11,11 +11,11 @@ export default {
             type: Boolean,
             default: false,
         },
-        dropdownSelector: {
+        dropdownClass: {
             type: String,
             default: 'dropdown',
         },
-        itemSelector: {
+        itemClass: {
             type: String,
             default: 'dropdown-item',
         },
@@ -26,6 +26,8 @@ export default {
     },
 
     emits: ['hide', 'show'],
+
+    inheritAttrs: false,
 
     data: () => ({
         items: [],
@@ -47,10 +49,6 @@ export default {
                 this.hide();
             }
         },
-    },
-
-    mounted() {
-        this.el.setAttribute(this.dropdownSelector, true);
     },
 
     methods: {
@@ -84,7 +82,7 @@ export default {
             return els[index];
         },
         renderedItems() {
-            const nodelist = this.el.querySelectorAll(`[${this.itemSelector}=true]`);
+            const nodelist = this.el.querySelectorAll(`.${this.itemClass}`);
 
             return Array.from(nodelist).map((node) => node.__item__);
         },
@@ -162,7 +160,7 @@ export default {
         },
         scrollIntoView() {
             if (this.current) {
-                this.current.el
+                this.current.$el
                     .scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         },
@@ -187,7 +185,7 @@ export default {
             }
         },
         shouldOpenBeneath() {
-            const dropdown = this.el.querySelector(`[${this.dropdownSelector}=true]`);
+            const dropdown = this.el.querySelector(`.${this.dropdownClass}`);
 
             if (dropdown) {
                 const bounding = dropdown.getBoundingClientRect();
@@ -205,7 +203,6 @@ export default {
             attemptHide: this.attemptHide,
             disableControls: () => this.disableControls,
             deregister: this.deregister,
-            itemSelector: this.itemSelector,
             makeCurrent: this.makeCurrent,
             register: this.register,
         };
