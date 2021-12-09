@@ -30,6 +30,7 @@
                         v-if="open">
                         <div class="dropdown-content">
                             <slot name="controls"
+                                :keydown="keydown"
                                 :hide="hide"/>
                             <div class="items no-scrollbars">
                                 <slot name="items"/>
