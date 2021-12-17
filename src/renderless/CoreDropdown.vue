@@ -62,7 +62,7 @@ export default {
         },
         deregister(item) {
             // eslint-disable-next-line no-underscore-dangle
-            const index = this.items.findIndex(({ _uid }) => _uid === item._uid);
+            const index = this.items.findIndex(({ _ }) => _.uid === item._.uid);
 
             this.items.splice(index, 1);
 
@@ -121,9 +121,9 @@ export default {
                 break;
             }
         },
-        makeCurrent({ _uid }) {
+        makeCurrent({ _ }) {
             if (!this.disableControls) {
-                this.items.forEach((item) => (item.current = item._uid === _uid));
+                this.items.forEach((item) => (item.current = item._.uid === _.uid));
                 this.scrollIntoView();
             }
         },
