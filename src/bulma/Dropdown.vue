@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown is-active vue-dropdown"
-        :class="{'is-up': isUp}">
+        :class="[{'is-up': isUp}, $attrs.class]">
         <core-dropdown v-bind="$attrs"
             ref="dropdown">
             <template #default="{
@@ -58,6 +58,8 @@ export default {
     components: {
         Fa, CoreDropdown, Fade, DropdownIndicator,
     },
+
+    inheritAttrs: false,
 
     data: () => ({
         isUp: false,
