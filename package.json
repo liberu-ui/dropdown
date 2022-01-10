@@ -24,6 +24,7 @@
         "@enso-ui/directives": "^2.0",
         "@enso-ui/dropdown-indicator": "^2.0",
         "@enso-ui/transitions": "^2.0",
+        "@fortawesome/vue-fontawesome": "3.0.0-5",
         "vue": "^3.0"
     },
     "devDependencies": {

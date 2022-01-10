@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { clickOutside, fitsBelow } from '@enso-ui/directives';
 import { Fade } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
@@ -56,7 +55,7 @@ export default {
     directives: { clickOutside, fitsBelow },
 
     components: {
-        Fa, CoreDropdown, Fade, DropdownIndicator,
+        CoreDropdown, Fade, DropdownIndicator,
     },
 
     inheritAttrs: false,
@@ -74,7 +73,7 @@ export default {
         },
         show() {
             this.$refs.dropdown.show();
-        }
+        },
     },
 };
 </script>

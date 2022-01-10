@@ -2,6 +2,18 @@
 export default {
     name: 'CoreDropdown',
 
+    provide() {
+        return {
+            attemptHide: this.attemptHide,
+            disableControls: () => this.disableControls,
+            deregister: this.deregister,
+            makeCurrent: this.makeCurrent,
+            register: this.register,
+        };
+    },
+
+    inheritAttrs: false,
+
     props: {
         disableControls: {
             type: Boolean,
@@ -26,8 +38,6 @@ export default {
     },
 
     emits: ['hide', 'show'],
-
-    inheritAttrs: false,
 
     data: () => ({
         items: [],
@@ -58,7 +68,7 @@ export default {
             }
         },
         currentIndex() {
-            return this.renderedItems().findIndex((item) => item.current);
+            return this.renderedItems().findIndex(item => item.current);
         },
         deregister(item) {
             // eslint-disable-next-line no-underscore-dangle
@@ -84,7 +94,7 @@ export default {
         renderedItems() {
             const nodelist = this.el.querySelectorAll(`.${this.itemClass}`);
 
-            return Array.from(nodelist).map((node) => node.__item__);
+            return Array.from(nodelist).map(node => node.__item__);
         },
         keydown(e) {
             if (this.disableControls) {
@@ -123,7 +133,7 @@ export default {
         },
         makeCurrent({ _ }) {
             if (!this.disableControls) {
-                this.items.forEach((item) => (item.current = item._.uid === _.uid));
+                this.items.forEach(item => (item.current = item._.uid === _.uid));
                 this.scrollIntoView();
             }
         },
@@ -196,16 +206,6 @@ export default {
 
             return true;
         },
-    },
-
-    provide() {
-        return {
-            attemptHide: this.attemptHide,
-            disableControls: () => this.disableControls,
-            deregister: this.deregister,
-            makeCurrent: this.makeCurrent,
-            register: this.register,
-        };
     },
 
     render() {
