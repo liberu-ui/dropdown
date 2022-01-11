@@ -2,6 +2,18 @@
 export default {
     name: 'CoreDropdown',
 
+    provide() {
+        return {
+            attemptHide: this.attemptHide,
+            disableControls: () => this.disableControls,
+            deregister: this.deregister,
+            makeCurrent: this.makeCurrent,
+            register: this.register,
+        };
+    },
+
+    inheritAttrs: false,
+
     props: {
         disableControls: {
             type: Boolean,
@@ -11,11 +23,11 @@ export default {
             type: Boolean,
             default: false,
         },
-        dropdownSelector: {
+        dropdownClass: {
             type: String,
             default: 'dropdown',
         },
-        itemSelector: {
+        itemClass: {
             type: String,
             default: 'dropdown-item',
         },
@@ -25,15 +37,19 @@ export default {
         },
     },
 
+    emits: ['hide', 'show'],
+
     data: () => ({
         items: [],
         open: false,
-        opensBottom: true,
     }),
 
     computed: {
         current() {
             return this.items.find(({ current }) => current);
+        },
+        el() {
+            return this.$parent.$el;
         },
     },
 
@@ -43,18 +59,6 @@ export default {
                 this.hide();
             }
         },
-        open(open) {
-            if (open) {
-                this.opensBottom = true;
-                this.$nextTick(() => {
-                    this.opensBottom = this.shouldOpenBeneath();
-                });
-            }
-        },
-    },
-
-    mounted() {
-        this.$el.setAttribute(this.dropdownSelector, true);
     },
 
     methods: {
@@ -64,11 +68,11 @@ export default {
             }
         },
         currentIndex() {
-            return this.renderedItems().findIndex((item) => item.current);
+            return this.renderedItems().findIndex(item => item.current);
         },
         deregister(item) {
             // eslint-disable-next-line no-underscore-dangle
-            const index = this.items.findIndex(({ _uid }) => _uid === item._uid);
+            const index = this.items.findIndex(({ _ }) => _.uid === item._.uid);
 
             this.items.splice(index, 1);
 
@@ -88,9 +92,9 @@ export default {
             return els[index];
         },
         renderedItems() {
-            const nodelist = this.$el.querySelectorAll(`[${this.itemSelector}=true]`);
+            const nodelist = this.el.querySelectorAll(`.${this.itemClass}`);
 
-            return Array.from(nodelist).map((node) => node.__item__);
+            return Array.from(nodelist).map(node => node.__item__);
         },
         keydown(e) {
             if (this.disableControls) {
@@ -127,9 +131,9 @@ export default {
                 break;
             }
         },
-        makeCurrent({ _uid }) {
+        makeCurrent({ _ }) {
             if (!this.disableControls) {
-                this.items.forEach((item) => (item.current = item._uid === _uid));
+                this.items.forEach(item => (item.current = item._.uid === _.uid));
                 this.scrollIntoView();
             }
         },
@@ -191,7 +195,7 @@ export default {
             }
         },
         shouldOpenBeneath() {
-            const dropdown = this.$el.querySelector(`[${this.dropdownSelector}=true]`);
+            const dropdown = this.el.querySelector(`.${this.dropdownClass}`);
 
             if (dropdown) {
                 const bounding = dropdown.getBoundingClientRect();
@@ -204,27 +208,18 @@ export default {
         },
     },
 
-    provide() {
-        return {
-            attemptHide: this.attemptHide,
-            disableControls: () => this.disableControls,
-            deregister: this.deregister,
-            itemSelector: this.itemSelector,
-            makeCurrent: this.makeCurrent,
-            register: this.register,
-        };
-    },
-
     render() {
-        return this.$scopedSlots.default({
+        return this.$slots.default({
             selection: !!this.current,
-            dropdownEvents: { keydown: this.keydown },
+            keydown: { keydown: this.keydown },
             hide: this.hide,
             open: this.open,
-            opensBottom: this.opensBottom,
             show: this.show,
             triggerEvents: {
-                click: this.toggle,
+                click: event => {
+                    this.toggle();
+                    event.stopPropagation();
+                },
             },
         });
     },

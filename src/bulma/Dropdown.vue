@@ -1,15 +1,13 @@
 <template>
-    <core-dropdown v-bind="$attrs"
-        v-on="$listeners"
-        ref="dropdown">
-        <template v-slot:default="{
-            dropdownEvents, hide, open, opensBottom, selection, show, triggerEvents
-        }">
-            <div class="dropdown is-active vue-dropdown"
-                :class="{ 'is-up': !opensBottom }"
-                v-click-outside="hide"
-                v-on="dropdownEvents">
-                <div class="dropdown-trigger">
+    <div class="dropdown is-active vue-dropdown"
+        :class="[{'is-up': isUp}, $attrs.class]">
+        <core-dropdown v-bind="$attrs"
+            ref="dropdown">
+            <template #default="{
+                keydown, hide, open, selection, show, triggerEvents,
+            }">
+                <div class="dropdown-trigger"
+                    v-on="keydown">
                     <slot name="trigger"
                         :hide="hide"
                         :open="open"
@@ -26,9 +24,13 @@
                 </div>
                 <fade>
                     <div class="dropdown-menu"
+                        v-on="keydown"
+                        v-click-outside="hide"
+                        v-fits-below="fitsBelow"
                         v-if="open">
                         <div class="dropdown-content">
                             <slot name="controls"
+                                :keydown="keydown"
                                 :hide="hide"/>
                             <div class="items no-scrollbars">
                                 <slot name="items"/>
@@ -36,13 +38,13 @@
                         </div>
                     </div>
                 </fade>
-            </div>
-        </template>
-    </core-dropdown>
+            </template>
+        </core-dropdown>
+    </div>
 </template>
 
 <script>
-import { clickOutside } from '@enso-ui/directives';
+import { clickOutside, fitsBelow } from '@enso-ui/directives';
 import { Fade } from '@enso-ui/transitions';
 import DropdownIndicator from '@enso-ui/dropdown-indicator';
 import CoreDropdown from '../renderless/CoreDropdown.vue';
@@ -50,13 +52,24 @@ import CoreDropdown from '../renderless/CoreDropdown.vue';
 export default {
     name: 'Dropdown',
 
-    directives: { clickOutside },
+    directives: { clickOutside, fitsBelow },
 
-    components: { CoreDropdown, Fade, DropdownIndicator },
+    components: {
+        CoreDropdown, Fade, DropdownIndicator,
+    },
+
+    inheritAttrs: false,
+
+    data: () => ({
+        isUp: false,
+    }),
 
     methods: {
         hide() {
             this.$refs.dropdown.hide();
+        },
+        fitsBelow(state) {
+            this.isUp = !state;
         },
         show() {
             this.$refs.dropdown.show();

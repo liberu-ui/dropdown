@@ -1,22 +1,56 @@
 <template>
-    <core-dropdown-item v-slot:default="{ current, events, selected }"
-        v-bind="$attrs"
-        v-on="$listeners">
-        <a class="dropdown-item"
-            :class="{ 'is-active': selected, 'has-background-light': current && !selected }"
-            v-on="events">
-            <slot name="default"
-                :current="current"/>
-        </a>
-    </core-dropdown-item>
+    <a class="dropdown-item"
+        :class="[{
+            'is-active': selected,
+            'has-background-light': current && !selected }
+        ]"
+        @click="select"
+        @mouseenter="makeCurrent(this)">
+        <slot name="default"
+            :current="current"/>
+    </a>
 </template>
 
 <script>
-import CoreDropdownItem from '../renderless/CoreDropdownItem.vue';
 
 export default {
     name: 'DropdownItem',
 
-    components: { CoreDropdownItem },
+    inject: ['attemptHide', 'disableControls', 'deregister', 'makeCurrent', 'register'],
+
+    props: {
+        selected: {
+            type: Boolean,
+            default: false,
+        },
+    },
+
+    emits: ['select'],
+
+    data: () => ({
+        current: false,
+        ref: 'item',
+    }),
+
+    created() {
+        this.register(this);
+    },
+
+    beforeUnmount() {
+        this.deregister(this);
+    },
+
+    mounted() {
+        this.$el.__item__ = this;
+    },
+
+    methods: {
+        select() {
+            if (!this.disableControls()) {
+                this.$emit('select');
+                this.attemptHide();
+            }
+        },
+    },
 };
 </script>
