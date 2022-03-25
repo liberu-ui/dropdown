@@ -16,7 +16,7 @@
 export default {
     name: 'DropdownItem',
 
-    inject: ['attemptHide', 'disableControls', 'deregister', 'makeCurrent', 'register'],
+    inject: ['attemptHide', 'canSelect', 'deregister', 'makeCurrent', 'register'],
 
     props: {
         selected: {
@@ -46,7 +46,7 @@ export default {
 
     methods: {
         select() {
-            if (!this.disableControls()) {
+            if (this.canSelect()) {
                 this.$emit('select');
                 this.attemptHide();
             }

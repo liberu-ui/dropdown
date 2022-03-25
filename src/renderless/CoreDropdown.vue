@@ -5,7 +5,7 @@ export default {
     provide() {
         return {
             attemptHide: this.attemptHide,
-            disableControls: () => this.disableControls,
+            canSelect: () => !this.disableControls && this.open,
             deregister: this.deregister,
             makeCurrent: this.makeCurrent,
             register: this.register,
@@ -121,10 +121,9 @@ export default {
 
                 if (!this.open) {
                     this.show();
-                    break;
+                } else {
+                    this.select();
                 }
-
-                this.select();
 
                 break;
             default:
