@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown is-active vue-dropdown"
-        :class="[{'is-up': isUp}, $attrs.class]">
+        :class="[{'is-up': opensUp || isUp}, $attrs.class]">
         <core-dropdown v-bind="$attrs"
             ref="dropdown">
             <template #default="{
@@ -53,6 +53,13 @@ export default {
     name: 'Dropdown',
 
     directives: { clickOutside, fitsBelow },
+
+    props: {
+        opensUp: {
+            type: Boolean,
+            default: false,
+        },
+    },
 
     components: {
         CoreDropdown, Fade, DropdownIndicator,
