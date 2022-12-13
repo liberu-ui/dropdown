@@ -193,18 +193,6 @@ export default {
                 this.show();
             }
         },
-        shouldOpenBeneath() {
-            const dropdown = this.el.querySelector(`.${this.dropdownClass}`);
-
-            if (dropdown) {
-                const bounding = dropdown.getBoundingClientRect();
-
-                return bounding.top >= 0 && bounding.bottom
-                    <= (window.innerHeight || document.documentElement.clientHeight);
-            }
-
-            return true;
-        },
     },
 
     render() {
