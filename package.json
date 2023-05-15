@@ -1,5 +1,5 @@
 {
-    "name": "@cgdsoftware/dropdown",
+    "name": "@liberu-ui/dropdown",
     "version": "3.0.16",
     "description": "Vue Dropdown component",
     "main": "index.js",
@@ -21,9 +21,9 @@
     },
     "homepage": "https://github.com/enso-ui/dropdown#readme",
     "dependencies": {
-        "@cgdsoftware/directives": "^2.0",
-        "@cgdsoftware/dropdown-indicator": "^2.0",
-        "@cgdsoftware/transitions": "^2.0",
+        "@liberu-ui/directives": "^2.0",
+        "@liberu-ui/dropdown-indicator": "^2.0",
+        "@liberu-ui/transitions": "^2.0",
         "@fortawesome/vue-fontawesome": "3.0.0-5",
         "vue": "^3.0"
     },
