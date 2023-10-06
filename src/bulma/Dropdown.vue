@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import { clickOutside, fitsBelow } from '@enso-ui/directives';
-import { Fade } from '@enso-ui/transitions';
-import DropdownIndicator from '@enso-ui/dropdown-indicator';
+import { clickOutside, fitsBelow } from '@liberu-ui/directives';
+import { Fade } from '@liberu-ui/transitions';
+import DropdownIndicator from '@liberu-ui/dropdown-indicator';
 import CoreDropdown from '../renderless/CoreDropdown.vue';
 
 export default {
