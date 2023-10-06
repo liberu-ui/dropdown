@@ -1,10 +1,10 @@
 # Dropdown
 
-![npm license](https://img.shields.io/npm/l/@enso-ui/dropdown.svg) 
-![npm download](https://img.shields.io/npm/dm/@enso-ui/dropdown.svg) 
-![GitHub top language](https://img.shields.io/github/languages/top/enso-ui/dropdown.svg) 
-![GitHub issues](https://img.shields.io/github/issues/enso-ui/dropdown.svg) 
-![npm version](https://img.shields.io/npm/v/@enso-ui/dropdown.svg) 
+![npm license](https://img.shields.io/npm/l/@liberu-ui/dropdown.svg) 
+![npm download](https://img.shields.io/npm/dm/@liberu-ui/dropdown.svg) 
+![GitHub top language](https://img.shields.io/github/languages/top/liberu-ui/dropdown.svg) 
+![GitHub issues](https://img.shields.io/github/issues/liberu-ui/dropdown.svg) 
+![npm version](https://img.shields.io/npm/v/@liberu-ui/dropdown.svg) 
 
 Vue Dropdown component
 
