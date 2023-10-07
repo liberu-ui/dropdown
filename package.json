@@ -1,6 +1,6 @@
 {
     "name": "@liberu-ui/dropdown",
-    "version": "3.0.21",
+    "version": "3.0.22",
     "description": "Vue Dropdown component",
     "main": "index.ts",
     "scripts": {
